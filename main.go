@@ -53,28 +53,28 @@ func main() {
   // f.Advance = 5
   // f.Mask =
   line1 := font.Drawer{
-  	Dst:  img,
-  	Src:  &image.Uniform{image1bit.On},
-  	Face: f,
-  	Dot:  fixed.P(0, 13),
+    Dst:  img,
+    Src:  &image.Uniform{image1bit.On},
+    Face: f,
+    Dot:  fixed.P(0, 13),
   }
   line2 := font.Drawer{
-  	Dst:  img,
-  	Src:  &image.Uniform{image1bit.On},
-  	Face: f,
-  	Dot:  fixed.P(0, 13*2),
+    Dst:  img,
+    Src:  &image.Uniform{image1bit.On},
+    Face: f,
+    Dot:  fixed.P(0, 13*2),
   }
   line3 := font.Drawer{
-  	Dst:  img,
-  	Src:  &image.Uniform{image1bit.On},
-  	Face: f,
-  	Dot:  fixed.P(0, 13*3),
+    Dst:  img,
+    Src:  &image.Uniform{image1bit.On},
+    Face: f,
+    Dot:  fixed.P(0, 13*3),
   }
   line4 := font.Drawer{
-  	Dst:  img,
-  	Src:  &image.Uniform{image1bit.On},
-  	Face: f,
-  	Dot:  fixed.P(0, 13*4),
+    Dst:  img,
+    Src:  &image.Uniform{image1bit.On},
+    Face: f,
+    Dot:  fixed.P(0, 13*4),
   }
 
   for {
@@ -85,26 +85,26 @@ func main() {
     line3.Dot = fixed.P(0, 13*3)
     line4.Dot = fixed.P(0, 13*4)
 
-  	out, _ := exec.Command("bash", "-c", "top -bn1 | grep load | awk '{printf \"%.2f\", $(NF-2)}'").Output()
+    out, _ := exec.Command("bash", "-c", "top -bn1 | grep load | awk '{printf \"%.2f\", $(NF-2)}'").Output()
     line1.DrawString("LA: ")
     line1.DrawBytes(out)
-  	out, _ = exec.Command("bash", "-c", "cat /sys/class/thermal/thermal_zone0/temp | awk '{printf \"%.0f\", $1/1000}'").Output()
+    out, _ = exec.Command("bash", "-c", "cat /sys/class/thermal/thermal_zone0/temp | awk '{printf \"%.0f\", $1/1000}'").Output()
     line1.DrawString(" TMP: ")
     line1.DrawBytes(out)
 
-  	out, _ = exec.Command("bash", "-c", "hostname -I | cut -d ' ' -f1 | tr -d '\n'").Output()
+    out, _ = exec.Command("bash", "-c", "hostname -I | cut -d ' ' -f1 | tr -d '\n'").Output()
     line2.DrawString("IP: ")
     line2.DrawBytes(out)
 
-  	out, _ = exec.Command("bash", "-c", "free -m | awk 'NR==2{printf \"%s/%sMB %.0f%%\", $3,$2,$3*100/$2 }'").Output()
+    out, _ = exec.Command("bash", "-c", "free -m | awk 'NR==2{printf \"%s/%sMB %.0f%%\", $3,$2,$3*100/$2 }'").Output()
     line3.DrawString("MEM: ")
     line3.DrawBytes(out)
-  	out, _ = exec.Command("bash", "-c", "df -h | awk '$NF==\"/\"{printf \"%d/%dGB %s\", $3,$2,$5}'").Output()
+    out, _ = exec.Command("bash", "-c", "df -h | awk '$NF==\"/\"{printf \"%d/%dGB %s\", $3,$2,$5}'").Output()
     line4.DrawString("SD: ")
     line4.DrawBytes(out)
 
     if err = dev.Draw(dev.Bounds(), img, image.Point{}); err != nil {
-        log.Fatal(err)
+      log.Fatal(err)
     }
     time.Sleep(5000000 * time.Nanosecond)
   }
